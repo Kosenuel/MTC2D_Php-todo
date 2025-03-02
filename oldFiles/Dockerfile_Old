@@ -1,0 +1,35 @@
+# Import Base Image
+FROM php:8-apache
+
+# Install the necessary PHP extentions and tools
+RUN apt-get update
+RUN apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libonig-dev  libzip-dev zip unzip 
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg 
+RUN docker-php-ext-install -j$(nproc) gd
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo_mysql
+RUN docker-php-ext-install mbstring
+RUN docker-php-ext-install zip
+
+# Copy application files
+COPY . /var/www/html
+
+# Set the permissions
+RUN chown -R www-data:www-data /var/www/html
+
+# Expose the port for the host machine to map to
+EXPOSE 8000
+
+# Use the default Apache virtual host
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
+# Prevent the 'AH00558: apache2: Could not reliably determine the server's fully qualified domain name' error:
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf 
+
+# Enable mod_rewrite
+RUN a2enmod rewrite
+
+# Start Apacher server
+CMD ["apache2-foreground"]
