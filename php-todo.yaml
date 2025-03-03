@@ -7,7 +7,7 @@ services:
     ports:
       - "8090:8000"
     # volumes:
-    #   - .:/var/www # Testing testing testing ...
+    #   - .:/var/www # Testing testing testing
     networks:
       - tooling_app_network
     depends_on:
@@ -17,7 +17,7 @@ services:
     entrypoint: ["bash", "/var/www/run-php-server.sh"]
   
   db: 
-    image: 146682692a3a # mysql:5.7
+    image:  mysql:5.7 # 146682692a3a
     container_name: mysql-db
     volumes:
       - db_data:/var/lib/mysql
