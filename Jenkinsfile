@@ -8,7 +8,7 @@ pipeline {
     }
 
     parameters {
-        string (name: "BRANCH_NAME", defaultValue: "main", descripton: "Branch name to build on")
+        string (name: "BRANCH_NAME", defaultValue: "main", description: "Branch name to build on")
     }
 
     stages {
