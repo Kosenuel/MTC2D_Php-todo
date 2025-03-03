@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php-todo-app
+    ports:
+      - "8090:8000"
+    volumes:
+      - .:/var/www
+    networks:
+      - php-todo-network
+    depends_on:
+      - db
+    env_file:
+      - .env
+    entrypoint: ["bash", "var/www/run-php-server.sh"]
+  
+  db: 
+    image: 146682692a3a  #mysql:5.7
+    container_name: mysql-db
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./create_user.sql:/docker-entrypoint-initdb.d/create_user.sql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todos
+      MYSQL_USER: todouser
+      MYSQL_PASSWORD: devopsacts
+    networks:
+      - php-todo-network
+    
+networks:
+  php-todo-network:
+    driver: bridge
+
+volumes:
+  db_data:
