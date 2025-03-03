@@ -13,8 +13,7 @@ RUN docker-php-ext-install zip
 
 # Copy application files
 COPY . /var/www/html
-# Copy application files
-COPY . /var/www/html
+
 
 # Set the permissions
 RUN chown -R www-data:www-data /var/www/html
