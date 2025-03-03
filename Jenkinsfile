@@ -41,7 +41,7 @@ pipeline {
                     env.TAG_NAME = branchName == 'main' ? 'latest' : "${branchName}-0.0.${env.BUILD_NUMBER}"
 
                     sh """
-                        docker-compose -f ${COMPOSE__FILE} build
+                        docker-compose -f ${COMPOSE_FILE} build
                         """
                 }
             }
