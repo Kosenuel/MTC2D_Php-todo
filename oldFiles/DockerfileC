@@ -37,6 +37,15 @@ RUN /usr/local/bin/composer install --no-interaction --optimize-autoloader
 # Set the correct permissions for the Laravel application
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
+# Ensure storage and bootstrap cache directories are writable
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
+# Install Laravel dependencies
+RUN /usr/local/bin/composer install --no-interaction --optimize-autoloader 
+
+# Set the correct permissions for the Laravel application
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+
 # Change current user to www-data
 USER www-data
 
