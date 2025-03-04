@@ -8,7 +8,7 @@ pipeline {
     }
 
     parameters {
-        string (name: "BRANCH_NAME", defaultValue: "main", descripton: "Branch name to build on")
+        string (name: "BRANCH_NAME", defaultValue: "main", description: "Branch name to build on")
     }
 
     stages {
@@ -27,7 +27,8 @@ pipeline {
                     checkout ([
                         $class: 'GitSCM',
                         branches: [[name: "${params.BRANCH_NAME}"]],
-                        userRemoteConfigs: [[url: "https://github.com/Kosenuel/MTC2D_Php-todo.git"]]
+                        userRemoteConfigs: [[url: "https://github.com/Kosenuel/MTC2D_Php-todo.git"]],
+                        extensions: [[$class: 'CloneOption', depth: 1]]
                     ])
                 }
             }
@@ -41,7 +42,7 @@ pipeline {
                     env.TAG_NAME = branchName == 'main' ? 'latest' : "${branchName}-0.0.${env.BUILD_NUMBER}"
 
                     sh """
-                        docker-compose -f ${COMPOSE__FILE} build
+                        docker-compose -f ${COMPOSE_FILE} build
                         """
                 }
             }

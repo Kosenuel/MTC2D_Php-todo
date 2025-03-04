@@ -17,7 +17,7 @@ services:
     entrypoint: ["bash", "/var/www/run-php-server.sh"]
   
   db: 
-    image: 146682692a3a # mysql:5.7
+    image: mysql:5.7 # mysql:5.7
     container_name: mysql-db
     volumes:
       - db_data:/var/lib/mysql
