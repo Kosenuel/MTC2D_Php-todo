@@ -27,7 +27,7 @@ pipeline {
                     checkout ([
                         $class: 'GitSCM',
                         branches: [[name: "${params.BRANCH_NAME}"]],
-                        userRemoteConfigs: [[url: "https://github.com/Kosenuel/MTC2D_Php-todo.git"]]
+                        userRemoteConfigs: [[url: "https://github.com/Kosenuel/MTC2D_Php-todo.git"]],
                         extensions: [[$class: 'CloneOption', depth: 1]]
                     ])
                 }
