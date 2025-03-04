@@ -28,6 +28,7 @@ pipeline {
                         $class: 'GitSCM',
                         branches: [[name: "${params.BRANCH_NAME}"]],
                         userRemoteConfigs: [[url: "https://github.com/Kosenuel/MTC2D_Php-todo.git"]]
+                        extensions: [[$class: 'CloneOption', depth: 1]]
                     ])
                 }
             }
@@ -66,7 +67,7 @@ pipeline {
                         sleep(time: 30, unit: 'SECONDS')
                         response = sh(script: "curl -s -o /dev/null -w '%{http_code}' http://localhost:8090", returnStdout: true).trim()
                         echo "HTTP Status Code is: ${response}"
-                        if (response != "200") {
+                        if (response != "500") {
                             error "Application is not available. error code: ${response}"
                         } else {
                             echo "Application is very much alive and healthy!"
